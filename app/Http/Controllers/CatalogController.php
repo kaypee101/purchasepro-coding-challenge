@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('permission:catalog-list|catalog-create|catalog-edit|catalog-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:catalog-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:catalog-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:catalog-delete', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

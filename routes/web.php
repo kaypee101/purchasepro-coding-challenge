@@ -3,6 +3,8 @@
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layout');
 });
 
 Route::get('/dashboard', function () {
@@ -28,9 +30,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('roles', RoleController::class);
+
+    Route::resource('users', UserController::class);
+    Route::resource('catalogs', CatalogController::class);
+    Route::resource('products', ProductController::class);
 });
 
-Route::resource('catalogs', CatalogController::class);
-Route::resource('products', ProductController::class);
 
 require __DIR__ . '/auth.php';
