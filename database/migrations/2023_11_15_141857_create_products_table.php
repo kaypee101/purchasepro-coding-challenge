@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Catalog::class);
             $table->string('name')->nullable();
             $table->longText('detail')->nullable();
+            $table->integer('quantity')->default(0);
             $table->timestamps();
         });
     }

@@ -17,7 +17,7 @@ return [
 
         /*
          * When using the "HasRoles" trait from this package, we need to know which
-         * Eloquent model should be used to retrieve your roles. Of course, it
+         * Eloquent model should be used to retrieve your admin.roles. Of course, it
          * is often just the "Role" model but you may use whatever you like.
          *
          * The model you want to use as a Role model needs to implement the
@@ -32,7 +32,7 @@ return [
 
         /*
          * When using the "HasRoles" trait from this package, we need to know which
-         * table should be used to retrieve your roles. We have chosen a basic
+         * table should be used to retrieve your admin.roles. We have chosen a basic
          * default value but you may easily change it to any table you like.
          */
 
@@ -56,7 +56,7 @@ return [
 
         /*
          * When using the "HasRoles" trait from this package, we need to know which
-         * table should be used to retrieve your models roles. We have chosen a
+         * table should be used to retrieve your models admin.roles. We have chosen a
          * basic default value but you may easily change it to any table you like.
          */
 

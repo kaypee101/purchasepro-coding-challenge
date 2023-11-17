@@ -17,7 +17,7 @@ class RoleAndPermissionTableSeeder extends Seeder
     public function run()
     {
 
-        $permissionList = ['role', 'catalog', 'product'];
+        $permissionList = ['user', 'role', 'catalog', 'product'];
         $permissionType = ['list', 'create', 'edit', 'delete'];
 
         foreach ($permissionList as $permission) {
@@ -26,6 +26,7 @@ class RoleAndPermissionTableSeeder extends Seeder
             }
 
             if ($permission == 'product') {
+                Permission::create(['name' => $permission . '-' . 'view']);
                 Permission::create(['name' => $permission . '-' . 'checkout']);
             }
         }
@@ -37,7 +38,9 @@ class RoleAndPermissionTableSeeder extends Seeder
 
         // * Assign permissions to USER
         $userRole = Role::create(['name' => 'user']);
-        $userPermissions = Permission::where('name', 'product-list')->orWhere('name', 'product-checkout')->pluck('id', 'id');
+        $userPermissions = Permission::where('name', 'product-view')
+            ->orWhere('name', 'product-checkout')
+            ->pluck('id', 'id');
         $userRole->syncPermissions($userPermissions);
     }
 }

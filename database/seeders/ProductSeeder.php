@@ -21,6 +21,7 @@ class ProductSeeder extends Seeder
                 Product::create([
                     'name' => $catalog->name . "_Item_" . ($i + 1),
                     'catalog_id' => $catalog->id,
+                    'quantity' => 10
                 ]);
             }
         }

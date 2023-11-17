@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Purchase Pro Coding Challenge') }}</title>
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    @vite('resources/js/app.js')
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
@@ -46,16 +46,25 @@
                             </li>
                         @else
                             @if (Auth::user()->hasRole('admin'))
-                                <li><a class="nav-link text-secondary" href="{{ route('users.index') }}">
+                                <li><a class="nav-link text-secondary" href="{{ route('admin.users.index') }}">
                                         <span>Manage Users</span>
                                     </a>
                                 </li>
-                                <li><a class="nav-link text-secondary" href="{{ route('roles.index') }}">
+                                <li><a class="nav-link text-secondary" href="{{ route('admin.roles.index') }}">
                                         <span>Manage Role</span>
                                     </a>
                                 </li>
-                                <li><a class="nav-link text-secondary" href="{{ route('products.index') }}">
+                                <li><a class="nav-link text-secondary" href="{{ route('admin.products.index') }}">
                                         <span>Manage Product</span>
+                                    </a>
+                                </li>
+                                <li><a class="nav-link text-secondary" href="{{ route('admin.catalogs.index') }}">
+                                        <span>Manage Catalog</span>
+                                    </a>
+                                </li>
+                            @else
+                                <li><a class="nav-link text-secondary" href="{{ route('products.view') }}">
+                                        <span>Product Lists</span>
                                     </a>
                                 </li>
                             @endif
@@ -100,6 +109,11 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
     </script>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+        integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+
 </body>
+
+@stack('scripts')
 
 </html>

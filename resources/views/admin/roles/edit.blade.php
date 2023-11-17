@@ -1,20 +1,25 @@
 @extends('layout')
 
+
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Add New Product</h2>
+            <div class="">
+                <h2>Edit Role</h2>
             </div>
-            <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('products.index') }}"> Back</a>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="col-xs-3 col-sm-3 col-md-3">
+                    <a class="btn btn-primary" href="{{ route('admin.roles.index') }}"> Back</a>
+                </div>
             </div>
         </div>
     </div>
 
-    @if ($errors->any())
+
+    @if (count($errors) > 0)
         <div class="alert alert-danger">
-            <strong>Error!</strong> <br>
+            <strong>Whoops!</strong> There were some problems with your input.<br><br>
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -23,27 +28,35 @@
         </div>
     @endif
 
-    <form action="{{ route('products.store') }}" method="POST">
-        @csrf
 
+
+    <form action="{{ route('admin.roles.update', $role->id) }}" method="POST">
+        @csrf
+        @method('PUT')
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Name:</strong>
                     <input type="text" name="name" class="form-control" placeholder="Name"
-                        value="{{ old('name') }}">
+                        value="{{ old('name') ?? $user->name }}">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Detail:</strong>
-                    <textarea class="form-control" style="height:150px" name="detail" placeholder="Detail">{{ old('detail') }}</textarea>
+                    <strong>Permission:</strong>
+                    <br />
+                    @foreach ($permission as $value)
+                        <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, ['class' => 'name']) }}
+                            {{ $value->name }}</label>
+                        <br />
+                    @endforeach
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
-
     </form>
+
+
 @endsection

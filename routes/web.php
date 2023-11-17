@@ -1,10 +1,6 @@
 <?php
 
-use App\Http\Controllers\CatalogController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,11 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('roles', RoleController::class);
-
-    Route::resource('users', UserController::class);
-    Route::resource('catalogs', CatalogController::class);
-    Route::resource('products', ProductController::class);
+    require __DIR__ . '/admin.php';
+    require __DIR__ . '/user.php';
 });
 
 

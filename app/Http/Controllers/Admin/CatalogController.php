@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CatalogFormRequest;
 use App\Models\Catalog;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class CatalogController extends Controller
     public function index()
     {
         $catalogs = Catalog::latest()->paginate(5);
-        return view('catalogs.index', compact('catalogs'))->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('admin.catalogs.index', compact('catalogs'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -35,7 +36,7 @@ class CatalogController extends Controller
      */
     public function create()
     {
-        return view('catalogs.create');
+        return view('admin.catalogs.create');
     }
 
     /**
@@ -48,7 +49,7 @@ class CatalogController extends Controller
     {
         Catalog::create($request->all());
 
-        return redirect()->route('catalogs.index')->with('success', 'Catalog created successfully.');
+        return redirect()->route('admin.catalogs.index')->with('success', 'Catalog created successfully.');
     }
 
     /**
@@ -59,7 +60,7 @@ class CatalogController extends Controller
      */
     public function show(Catalog $catalog)
     {
-        return view('catalogs.show', compact('catalog'));
+        return view('admin.catalogs.show', compact('catalog'));
     }
 
     /**
@@ -70,7 +71,7 @@ class CatalogController extends Controller
      */
     public function edit(Catalog $catalog)
     {
-        return view('catalogs.edit', compact('catalog'));
+        return view('admin.catalogs.edit', compact('catalog'));
     }
 
     /**
@@ -84,7 +85,7 @@ class CatalogController extends Controller
     {
         $catalog->update($request->all());
 
-        return redirect()->route('catalogs.index')->with('success', 'Catalog updated successfully');
+        return redirect()->route('admin.catalogs.index')->with('success', 'Catalog updated successfully');
     }
 
     /**
@@ -97,6 +98,6 @@ class CatalogController extends Controller
     {
         $catalog->delete();
 
-        return redirect()->route('catalogs.index')->with('success', 'Catalog deleted successfully');
+        return redirect()->route('admin.catalogs.index')->with('success', 'Catalog deleted successfully');
     }
 }
