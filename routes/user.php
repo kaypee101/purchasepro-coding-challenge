@@ -12,5 +12,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('products.')->group(function () {
     Route::get('view', [ProductController::class, 'view'])->name('view');
-    Route::get('checkout', [ProductController::class, 'checkout'])->name('checkout');
+    Route::post('checkout', [ProductController::class, 'checkout'])->name('checkout');
 });

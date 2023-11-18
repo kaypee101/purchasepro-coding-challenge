@@ -28,7 +28,10 @@ class ProductController extends Controller
         $catalog = Catalog::where('name', $catalog_name)->first();
         $products = Product::when($catalog, function ($query, $catalog) {
             $query->where('catalog_id', $catalog->id);
-        })->latest()->paginate(5)
+        })
+            ->latest()
+            ->orderBy('id', 'desc')
+            ->paginate(5)
             ->appends(request()->query());
 
         $catalogs = Catalog::get();
@@ -39,11 +42,37 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param \Illuminate\Http\Request  $request;
      * @return \Illuminate\Http\Response
      */
-    public function checkout()
+    public function checkout(Request $request)
     {
-        $products = Product::latest()->paginate(5);
-        return view('products.checkout', compact('products'))->with('i', (request()->input('page', 1) - 1) * 5);
+        $cart = request()->cookie('cart');
+        if ($cart == null) {
+            return redirect()
+                ->route('products.view')
+                ->with('error', 'Cart was empty. Did not checkout');
+        }
+
+        $cart = json_decode($cart);
+
+        foreach ($cart as $productId => $quantity) {
+
+            $product = Product::where('id', $this->removePrefixProduct($productId))->first();
+            $product->quantity =  $product->quantity - $quantity;
+            $product->save();
+        }
+
+        $clearCartCookie = cookie('cart', null, 0);
+        return redirect()
+            ->route('products.view')
+            ->with('success', 'Checkout was successful. Check Email')
+            ->withCookie($clearCartCookie);
+    }
+
+    public function removePrefixProduct($productId)
+    {
+        $productId = str_replace('product_', '', $productId);
+        return $productId;
     }
 }

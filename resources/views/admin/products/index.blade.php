@@ -41,7 +41,7 @@
             <th>Catalog</th>
             <th>Details</th>
             <th>Quantity</th>
-            <th width="215px">Action</th>
+            <th width="250px">Action</th>
         </tr>
         @foreach ($products as $product)
             <tr>

@@ -28,14 +28,19 @@ class ProductController extends Controller
     {
         $page = request()->input('page', 1);
         $catalog_name = request()->input('catalog');
+
         $catalog = Catalog::where('name', $catalog_name)->first();
         $products = Product::when($catalog, function ($query, $catalog) {
             $query->where('catalog_id', $catalog->id);
-        })->latest()->paginate(5)
+        })
+            ->latest()
+            ->orderBy('id', 'desc')
+            ->paginate(5)
             ->appends(request()->query());
 
         $catalogs = Catalog::get();
-        return view('admin.products.index', compact('products', 'catalogs'))->with('i');
+        $catalog_name = ucfirst(strtolower($catalog_name));
+        return view('admin.products.index', compact('products', 'catalogs', 'catalog_name'))->with('i');
     }
 
     /**
