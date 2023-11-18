@@ -56,7 +56,7 @@
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ $product->name }}</td>
-                <td>{{ $product->catalog->name }}</td>
+                <td>{{ $product->catalog()->name }}</td>
                 <td>{{ $product->detail }}</td>
                 <td id="qty_{{ $product->id }}">{{ $product->quantity }}</td>
                 <td class="d-flex justify-content-between align-items-center">

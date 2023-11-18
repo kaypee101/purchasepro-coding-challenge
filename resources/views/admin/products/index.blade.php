@@ -47,7 +47,7 @@
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ $product->name }}</td>
-                <td>{{ $product->catalog->name }}</td>
+                <td>{{ $product->catalog()->name }}</td>
                 <td>{{ $product->detail }}</td>
                 <td>{{ $product->quantity }}</td>
                 <td>

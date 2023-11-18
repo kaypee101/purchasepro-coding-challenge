@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendCheckoutInfoMail;
 use App\Models\Catalog;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -53,21 +54,42 @@ class ProductController extends Controller
                 ->route('products.view')
                 ->with('error', 'Cart was empty. Did not checkout');
         }
-
         $cart = json_decode($cart);
+
+        $products = [];
 
         foreach ($cart as $productId => $quantity) {
 
             $product = Product::where('id', $this->removePrefixProduct($productId))->first();
+            array_push(
+                $products,
+                (object)  [
+                    'product_name' => $product->name,
+                    'product_type' => $product->catalog()->name,
+                    'product_quantity' => $quantity,
+                ]
+            );
             $product->quantity =  $product->quantity - $quantity;
             $product->save();
         }
+
+        $cartInfo = (object) [
+            'user' => \Auth::user(),
+            'products' => $products
+        ];
+
+        $this->sendCheckoutInfoMail($cartInfo);
 
         $clearCartCookie = cookie('cart', null, 0);
         return redirect()
             ->route('products.view')
             ->with('success', 'Checkout was successful. Check Email')
             ->withCookie($clearCartCookie);
+    }
+
+    public function sendCheckoutInfoMail($cartInfo)
+    {
+        \Mail::to($cartInfo->user->email)->send(new SendCheckoutInfoMail($cartInfo));
     }
 
     public function removePrefixProduct($productId)
