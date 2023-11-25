@@ -45,6 +45,9 @@ The project uses Laravel 10 + Sail to initialize the application. Developed in W
 #### Install Docker Image, Container, Composer and NPM Packages
 
 -   sudo service docker start
+-   #### **_ START - added new update _**
+-   docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)/api:/var/www/html" -w /var/www/html laravelsail/php82-composer:latest composer install --ignore-platform-reqs
+-   #### **_ END- added new update _**
 -   ./vendor/bin/sail up -d
 -   cp .env.example .env
 -   ./vendor/bin/sail composer install
